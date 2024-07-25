@@ -4,7 +4,6 @@ import j2html.TagCreator;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 
 import java.io.IOException;
@@ -17,9 +16,6 @@ import java.nio.file.Path;
  */
 @Mojo(name = "html-overview", defaultPhase = LifecyclePhase.PROCESS_CLASSES, requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME)
 public class HtmlConfigCollectorMojo extends AbstractConfigCollectorMojo {
-
-    @Parameter
-    String outputDirectory;
 
     @Override
     public void execute() throws MojoExecutionException {

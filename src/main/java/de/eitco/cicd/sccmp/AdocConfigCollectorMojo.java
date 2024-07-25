@@ -19,9 +19,6 @@ import java.util.List;
 @Mojo(name = "adoc-overview", defaultPhase = LifecyclePhase.PROCESS_CLASSES, requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME)
 public class AdocConfigCollectorMojo extends AbstractConfigCollectorMojo {
 
-    @Parameter
-    String outputDirectory;
-
     @Parameter(defaultValue = "3")
     int titleLevel = 3;
 

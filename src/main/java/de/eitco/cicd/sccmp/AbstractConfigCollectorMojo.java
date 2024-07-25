@@ -24,11 +24,15 @@ import java.util.stream.Collectors;
 public abstract class AbstractConfigCollectorMojo extends AbstractMojo {
 
     public static final String CONFIG_METADATA_JSON_FILE = "META-INF/spring-configuration-metadata.json";
+
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     MavenProject project;
 
     @Parameter(defaultValue = ".*")
     String filteringRegex;
+
+    @Parameter(defaultValue = "${project.build.directory}")
+    String outputDirectory;
 
     protected CollectedProperties loadConfigurationMetadata() throws IOException, MojoExecutionException {
 

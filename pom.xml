@@ -19,6 +19,10 @@
             <name>Christopher Merkel</name>
             <email>cmerkel@eitco.de</email>
         </developer>
+        <developer>
+            <name>Jan Schwarz</name>
+            <email>jschwarz@eitco.de</email>
+        </developer>
     </developers>
 
     <scm>
@@ -91,6 +95,13 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-invoker-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
