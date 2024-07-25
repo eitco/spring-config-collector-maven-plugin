@@ -97,3 +97,5 @@ you can filter property names using a regular expression:
 </plugin>
 ````
 In this case only properties that begin with `my.property.prefix` or `other-prefix` will be listed in the resulting files.
+
+For further examples see the [integration test directory](tree/main/src/it).
