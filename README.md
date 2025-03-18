@@ -98,4 +98,7 @@ you can filter property names using a regular expression:
 ````
 In this case only properties that begin with `my.property.prefix` or `other-prefix` will be listed in the resulting files.
 
+For better formatting of the generated table the plugin can shorten the class names of the properties, removing the package
+and generic types. This can be enabled using the property `<shortClassNames>true</shortClassNames>`.
+
 For further examples see the [integration test directory](./src/it).

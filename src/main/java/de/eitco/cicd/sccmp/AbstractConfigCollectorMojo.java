@@ -34,6 +34,9 @@ public abstract class AbstractConfigCollectorMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project.build.directory}")
     String outputDirectory;
 
+    @Parameter(defaultValue = "false", property = "spring-config-collector.short-class-names")
+    boolean shortClassNames = false;
+
     protected CollectedProperties loadConfigurationMetadata() throws IOException, MojoExecutionException {
 
         Enumeration<URL> systemResources = getProjectDependencyClassLoader().getResources(CONFIG_METADATA_JSON_FILE);
@@ -80,7 +83,7 @@ public abstract class AbstractConfigCollectorMojo extends AbstractMojo {
                     configurationMetadata.getProperties().stream().filter(p -> p.getName().startsWith(name)).forEach(p -> {
 
                         List<Property> list = propertiesByGroupName.computeIfAbsent(name, n -> new ArrayList<>());
-                        list.add(p);
+                        list.add(postProcessProperty(p));
                     }));
             }
         }
@@ -95,6 +98,26 @@ public abstract class AbstractConfigCollectorMojo extends AbstractMojo {
             );
 
         return new CollectedProperties(sortedGroupNames, sortedPropertiesByGroupName);
+    }
+
+    private Property postProcessProperty(Property p) {
+
+        if (!shortClassNames) {
+            return p;
+        }
+
+        String type = p.getType();
+        String shortType;
+
+        if (type.contains("<")) {
+            shortType = type.substring(0, type.indexOf("<"));
+            shortType = shortType.substring(shortType.lastIndexOf('.') + 1);
+        } else {
+            shortType = type.substring(type.lastIndexOf('.') + 1);
+        }
+
+        p.setType(shortType);
+        return p;
     }
 
     private ClassLoader getProjectDependencyClassLoader() throws MojoExecutionException {
