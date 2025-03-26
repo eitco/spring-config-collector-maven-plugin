@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 public abstract class AbstractConfigCollectorMojo extends AbstractMojo {
 
     public static final String CONFIG_METADATA_JSON_FILE = "META-INF/spring-configuration-metadata.json";
+    public static final String ADDITIONAL_METADATA_FILE = "META-INF/documentation-spring-configuration-metadata.json";
 
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     MavenProject project;
@@ -39,12 +40,21 @@ public abstract class AbstractConfigCollectorMojo extends AbstractMojo {
 
     protected CollectedProperties loadConfigurationMetadata() throws IOException, MojoExecutionException {
 
-        Enumeration<URL> systemResources = getProjectDependencyClassLoader().getResources(CONFIG_METADATA_JSON_FILE);
         List<URL> urls = new ArrayList<>();
+
+        Enumeration<URL> systemResources = getProjectDependencyClassLoader().getResources(CONFIG_METADATA_JSON_FILE);
 
         while (systemResources.hasMoreElements()) {
 
             URL url = systemResources.nextElement();
+            urls.add(url);
+        }
+
+        Enumeration<URL> additionalResources = getProjectDependencyClassLoader().getResources(ADDITIONAL_METADATA_FILE);
+
+        while (additionalResources.hasMoreElements()) {
+
+            URL url = additionalResources.nextElement();
             urls.add(url);
         }
 
@@ -53,7 +63,7 @@ public abstract class AbstractConfigCollectorMojo extends AbstractMojo {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        List<String> groupNames = new ArrayList<>();
+        Set<String> groupNames = new HashSet<>();
         Map<String, List<Property>> propertiesByGroupName = new HashMap<>();
 
         Pattern pattern = Pattern.compile(filteringRegex);
