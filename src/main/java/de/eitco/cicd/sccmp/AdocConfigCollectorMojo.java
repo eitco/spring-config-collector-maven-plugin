@@ -58,7 +58,7 @@ public class AdocConfigCollectorMojo extends AbstractConfigCollectorMojo {
                     .append("|").append(getPropertyName(property, groupName)).append("\n")
                     .append("|").append(property.getType()).append("\n")
                     .append("|").append(property.getDescription()).append("\n")
-                    .append("|").append(property.getDefaultValue() != null ? property.getDefaultValue() : "").append("\n\n");
+                    .append("|").append(property.getDefaultValue() != null ? getDefaultValue(property) : "").append("\n\n");
             }
 
             adoc.append("|===\n\n");
@@ -70,5 +70,9 @@ public class AdocConfigCollectorMojo extends AbstractConfigCollectorMojo {
         getLog().info("Writing adoc file " + outputPath);
 
         Files.writeString(outputPath, adoc.toString());
+    }
+
+    private static String getDefaultValue(Property property) {
+        return "`+" + property.getDefaultValue() + "+`";
     }
 }
